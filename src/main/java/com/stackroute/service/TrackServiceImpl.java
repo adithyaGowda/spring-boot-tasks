@@ -69,7 +69,8 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public List<Track> getAllTracks() throws Exception {
-        if (trackRepository.findAll().isEmpty()){
+        List<Track> data = trackRepository.findAll();
+        if (data.isEmpty()){
             throw new Exception("No Tracks Available");
         }
         return trackRepository.findAll();
@@ -84,7 +85,7 @@ public class TrackServiceImpl implements TrackService {
     @Override
     public List<Track> getByName(String name) throws TrackNotFoundException{
         List<Track> dbName = trackRepository.getByName(name);
-        if (dbName.contains(null)){
+        if (!dbName.contains(name)){
             throw new TrackNotFoundException("Track Not Found");
         }
         return dbName;
