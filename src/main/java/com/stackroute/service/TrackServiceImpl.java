@@ -23,12 +23,11 @@ public class TrackServiceImpl implements TrackService {
     public Optional<Track> deleteTrackById(int id) throws TrackNotFoundException {
         Optional<Track> optional = trackRepository.findById(id);
 
-        if (optional.isPresent()) {
-            trackRepository.deleteById(id);
-        }
-        else
+        if (!optional.isPresent()) {
             throw new TrackNotFoundException("Track Not Found");
+        }
 
+        trackRepository.deleteById(id);
         return optional;
     }
 
@@ -44,24 +43,26 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public Track updateTrack(int id, Track track) throws TrackNotFoundException {
-        if (trackRepository.findById(id).isPresent()){
-            Track update = trackRepository.findById(id).get();
-            update.setName(track.getName());
-            update.setComments(track.getComments());
-            return trackRepository.save(track);
-        }
-        else
+        if (!trackRepository.findById(id).isPresent()){
             throw new TrackNotFoundException("Track Not Found");
+
+        }
+        Track update = trackRepository.findById(id).get();
+        update.setName(track.getName());
+        update.setComments(track.getComments());
+        return trackRepository.save(track);
 
     }
 
     @Override
     public Track getById(int id) throws TrackNotFoundException {
-        if (trackRepository.findById(id).isPresent()) {
-            return trackRepository.findById(id).get();
-        }
-        else
+        if (!trackRepository.findById(id).isPresent()) {
+
             throw new TrackNotFoundException("Track Not Found");
+        }
+
+        return trackRepository.findById(id).get();
+
     }
 
 
@@ -83,7 +84,7 @@ public class TrackServiceImpl implements TrackService {
     @Override
     public List<Track> getByName(String name) throws TrackNotFoundException{
         List<Track> dbName = trackRepository.getByName(name);
-        if (dbName == null){
+        if (dbName.contains(null)){
             throw new TrackNotFoundException("Track Not Found");
         }
         return dbName;
