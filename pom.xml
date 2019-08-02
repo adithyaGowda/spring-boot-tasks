@@ -9,9 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.stackroute</groupId>
-	<artifactId>spring-boot-tasks</artifactId>
+	<artifactId>track-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Spring-Boot-Tasks</name>
+	<packaging>jar</packaging>
+	<name>Track-Service</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -23,11 +24,23 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>2.1.6.RELEASE</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+<!--			<scope>runtime</scope>-->
 		</dependency>
 	</dependencies>
 
