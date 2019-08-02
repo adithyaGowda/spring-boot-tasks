@@ -14,5 +14,7 @@ public interface TrackService {
     public Track updateTrack(int id, Track track);
 
     //getByName implemented
-    public Track getByName(String name);
+//    public Track getByName(String name);
+
+    public List<Track> getByName(String name);
 }
