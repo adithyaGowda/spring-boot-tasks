@@ -16,7 +16,7 @@ import java.util.Optional;
 //@Qualifier("dummyImplementation")
 //Inorder to run this implementation class either we can use @Primary annotation or we can specify in @Qualifier
 
-@Profile("dev")
+@Profile("prod")
 public class TrackDummyServiceImpl implements TrackService {
 
 
