@@ -16,85 +16,51 @@ import java.util.Optional;
 //@Qualifier("dummyImplementation")
 //Inorder to run this implementation class either we can use @Primary annotation or we can specify in @Qualifier
 
-//@Profile("dev")
+@Profile("dev")
 public class TrackDummyServiceImpl implements TrackService {
 
+
     private TrackRepository trackRepository;
+
+    public TrackDummyServiceImpl() {
+    }
 
     @Autowired
     public TrackDummyServiceImpl(TrackRepository trackRepository) {
         this.trackRepository = trackRepository;
     }
 
-    @Override
-    public Optional<Track> deleteTrackById(int id) throws TrackNotFoundException {
-        Optional<Track> optional = trackRepository.findById(id);
 
-        if (!optional.isPresent()) {
-            throw new TrackNotFoundException("Track Not Found");
-        }
 
-        trackRepository.deleteById(id);
-        return optional;
-    }
+
 
     @Override
     public Track saveTrack(Track track) throws TrackAlreadyExistsException {
-        if(trackRepository.findById(track.getId()).isPresent()){
-            throw new TrackAlreadyExistsException("Track Already Exists");
-        }
-        Track saveTrack = trackRepository.save(track);
-        return saveTrack;
-    }
-
-
-    @Override
-    public Track updateTrack(int id, Track track) throws TrackNotFoundException {
-        if (!trackRepository.findById(id).isPresent()){
-            throw new TrackNotFoundException("Track Not Found");
-
-        }
-        Track update = trackRepository.findById(id).get();
-        update.setName(track.getName());
-        update.setComments(track.getComments());
-        return trackRepository.save(track);
-
+        return null;
     }
 
     @Override
     public Track getById(int id) throws TrackNotFoundException {
-        if (!trackRepository.findById(id).isPresent()) {
-
-            throw new TrackNotFoundException("Track Not Found");
-        }
-
-        return trackRepository.findById(id).get();
-
+        return null;
     }
-
-
 
     @Override
     public List<Track> getAllTracks() throws Exception {
-        List<Track> data = trackRepository.findAll();
-        if (data.isEmpty()){
-            throw new Exception("No Tracks Available");
-        }
-        return trackRepository.findAll();
+        return null;
     }
 
-    //getByName implemented
-//    @Override
-//    public Track getByName(String name) {
-//        return trackRepository.getByName(name);
-//    }
+    @Override
+    public Optional<Track> deleteTrackById(int id) throws TrackNotFoundException {
+        return Optional.empty();
+    }
 
     @Override
-    public List<Track> getByName(String name) throws TrackNotFoundException{
-        List<Track> dbName = trackRepository.getByName(name);
-        if (!dbName.contains(name)){
-            throw new TrackNotFoundException("Track Not Found");
-        }
-        return dbName;
+    public Track updateTrack(int id, Track track) throws TrackNotFoundException {
+        return null;
+    }
+
+    @Override
+    public List<Track> getByName(String name) throws TrackNotFoundException {
+        return null;
     }
 }

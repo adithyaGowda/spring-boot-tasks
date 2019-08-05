@@ -13,10 +13,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Primary
-//@Profile("prod")
+//@Primary
+@Profile("prod")
 public class TrackServiceImpl implements TrackService {
     private TrackRepository trackRepository;
+
+
+    public TrackServiceImpl() {
+    }
 
     @Autowired
     public TrackServiceImpl(TrackRepository trackRepository) {
