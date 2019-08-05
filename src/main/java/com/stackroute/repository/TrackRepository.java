@@ -13,9 +13,9 @@ public interface TrackRepository extends MongoRepository<Track, Integer> {
 
     //getByName implemented
 //    @Query("select t from Track t where t.name = ?1")
-//    public Track getByName(String name);
+    public Track findByName(String name);
 
 //    @Query("select t from Track t where t.name = ?1")
-    public List<Track> findByName(String name);
+//    public List<Track> findByName(String name);
 
 }

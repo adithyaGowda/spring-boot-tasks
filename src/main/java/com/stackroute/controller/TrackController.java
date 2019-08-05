@@ -112,7 +112,7 @@ public class TrackController {
     public ResponseEntity<?> getByName(@PathVariable String name){
 
         try{
-            responseEntity = new ResponseEntity<List<Track>>(trackServiceImpl.getByName(name),HttpStatus.OK);
+            responseEntity = new ResponseEntity<Track>(trackServiceImpl.getByName(name),HttpStatus.OK);
         }
         catch (Exception e){
             responseEntity = new ResponseEntity(e.getMessage(),HttpStatus.CONFLICT);

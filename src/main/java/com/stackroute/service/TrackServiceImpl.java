@@ -84,18 +84,19 @@ public class TrackServiceImpl implements TrackService {
         return trackRepository.findAll();
     }
 
-    //getByName implemented
-//    @Override
-//    public Track getByName(String name) {
-//        return trackRepository.getByName(name);
-//    }
 
     @Override
-    public List<Track> getByName(String name) throws TrackNotFoundException{
-        List<Track> dbName = trackRepository.findByName(name);
-        if (!dbName.contains(name)){
-            throw new TrackNotFoundException("Track Not Found");
-        }
-        return dbName;
+    public Track getByName(String name) throws TrackNotFoundException {
+
+        return trackRepository.findByName(name);
     }
+
+//    @Override
+//    public List<Track> getByName(String name) throws TrackNotFoundException{
+//        List<Track> dbName = trackRepository.findByName(name);
+//        if (!dbName.contains(name)){
+//            throw new TrackNotFoundException("Track Not Found");
+//        }
+//        return dbName;
+//    }
 }
