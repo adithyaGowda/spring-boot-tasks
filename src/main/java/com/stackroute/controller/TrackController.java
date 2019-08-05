@@ -2,6 +2,7 @@ package com.stackroute.controller;
 
 import com.stackroute.domain.Track;
 import com.stackroute.service.TrackService;
+import com.stackroute.service.TrackServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -12,22 +13,25 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("api/v1/")
 public class TrackController {
 
-    private TrackService trackService;
+    private TrackServiceImpl trackServiceImpl;
     private ResponseEntity responseEntity;;
 
+    public TrackController() {
+    }
+
     @Autowired
-    public TrackController(/*@Qualifier("dummyImplementation")*/ TrackService trackService) {
-        this.trackService = trackService;
+    public TrackController(TrackServiceImpl trackServiceImpl) {
+        this.trackServiceImpl = trackServiceImpl;
     }
 
     @PostMapping("track")
     public ResponseEntity<?> saveTrack(@RequestBody Track track){
 
         try{
-            trackService.saveTrack(track);
+            trackServiceImpl.saveTrack(track);
             responseEntity = new ResponseEntity("Successfully created", HttpStatus.CREATED);
         }
         catch (Exception e){
@@ -41,7 +45,7 @@ public class TrackController {
     public ResponseEntity<?> getById(@PathVariable int id){
 
         try{
-            responseEntity = new ResponseEntity<Track>(trackService.getById(id),HttpStatus.OK);
+            responseEntity = new ResponseEntity<Track>(trackServiceImpl.getById(id),HttpStatus.OK);
         }
         catch (Exception e){
             responseEntity = new ResponseEntity(e.getMessage(),HttpStatus.CONFLICT);
@@ -54,7 +58,7 @@ public class TrackController {
     public ResponseEntity<?> getAllTracks(){
 
         try{
-            responseEntity = new ResponseEntity<List<Track>>(trackService.getAllTracks(),HttpStatus.OK);
+            responseEntity = new ResponseEntity<List<Track>>(trackServiceImpl.getAllTracks(),HttpStatus.OK);
         }
         catch (Exception e){
             responseEntity = new ResponseEntity(new Exception("Internal Server Error"),HttpStatus.CONFLICT);
@@ -67,7 +71,7 @@ public class TrackController {
     public ResponseEntity<?> deleteTrackById(@PathVariable int id){
 
         try{
-            responseEntity = new ResponseEntity<Optional<Track>>(trackService.deleteTrackById(id),HttpStatus.OK);
+            responseEntity = new ResponseEntity<Optional<Track>>(trackServiceImpl.deleteTrackById(id),HttpStatus.OK);
         }
         catch (Exception e){
             responseEntity = new ResponseEntity(e.getMessage(),HttpStatus.CONFLICT);
@@ -81,7 +85,7 @@ public class TrackController {
 
         try{
 
-            responseEntity = new ResponseEntity(trackService.updateTrack(id,track),HttpStatus.OK);
+            responseEntity = new ResponseEntity(trackServiceImpl.updateTrack(id,track),HttpStatus.OK);
         }
         catch (Exception e){
             responseEntity = new ResponseEntity(e.getMessage(),HttpStatus.CONFLICT);
@@ -108,7 +112,7 @@ public class TrackController {
     public ResponseEntity<?> getByName(@PathVariable String name){
 
         try{
-            responseEntity = new ResponseEntity<List<Track>>(trackService.getByName(name),HttpStatus.OK);
+            responseEntity = new ResponseEntity<List<Track>>(trackServiceImpl.getByName(name),HttpStatus.OK);
         }
         catch (Exception e){
             responseEntity = new ResponseEntity(e.getMessage(),HttpStatus.CONFLICT);

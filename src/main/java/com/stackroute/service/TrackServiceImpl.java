@@ -92,7 +92,7 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public List<Track> getByName(String name) throws TrackNotFoundException{
-        List<Track> dbName = trackRepository.getByName(name);
+        List<Track> dbName = trackRepository.findByName(name);
         if (!dbName.contains(name)){
             throw new TrackNotFoundException("Track Not Found");
         }
