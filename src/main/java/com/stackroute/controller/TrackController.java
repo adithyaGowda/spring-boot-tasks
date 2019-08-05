@@ -16,7 +16,7 @@ import java.util.Optional;
 public class TrackController {
 
     private TrackService trackService;
-    ResponseEntity responseEntity;;
+    private ResponseEntity responseEntity;;
 
     @Autowired
     public TrackController(/*@Qualifier("dummyImplementation")*/ TrackService trackService) {
