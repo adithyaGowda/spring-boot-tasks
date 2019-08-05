@@ -38,24 +38,47 @@ public class TrackRepositoryTest {
     }
 
     @Test
-    public void givenInputShouldSaveTheTrack(){
+    public void testToSaveTheTrack(){
 
         Track testTrack = trackRepository.findById(track.getId()).get();
         assertEquals(track,testTrack);
     }
 
     @Test
-    public void givenInputShouldNotSaveAnyTracks(){
+    public void testToNotSaveAnyTracks(){
 
-       Track newTrack = new Track(1,"Beautiful","Restful Evening");
+       Track newTrack = new Track(12,"Beautiful","Restful Evening");
        trackRepository.save(newTrack);
+       assertNotSame(track,newTrack);
     }
 
     @Test
-    public void givenInputObjectShouldDeleteById(){
+    public void testToGetAllTheTracks(){
+        Track t1 = new Track(2,"soul","soft metallic");
+        Track t2 = new Track(3,"teardrop","soft rock");
+        Track t3 = new Track(4,"dance","hiphop");
+        trackRepository.save(t1);
+        trackRepository.save(t2);
+        trackRepository.save(t3);
+
+        List<Track> trackList = trackRepository.findAll();
+
+        assertEquals("teardrop",trackList.get(2).getName());
+    }
+
+    @Test
+    public void testToGetTrackById(){
+        Track t1 = new Track();
+        t1.setId(1);
+        Track t2 = trackRepository.findAllById;
+
+    }
+
+    @Test
+    public void testToDeleteTrackById(){
 
         List<Track> testTrack = trackRepository.findAll();
 
-//        assertEquals(testTrack,trackRepository.);
+       assertEquals(testTrack,trackRepository);
     }
 }
