@@ -3,6 +3,7 @@ package com.stackroute.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stackroute.domain.Track;
 import com.stackroute.exception.GlobalException;
+import com.stackroute.exception.TrackAlreadyExistsException;
 import com.stackroute.exception.TrackNotFoundException;
 import com.stackroute.service.TrackService;
 import com.stackroute.service.TrackServiceImpl;
@@ -51,6 +52,7 @@ public class TrackControllerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(trackController).build();
         mockMvc = MockMvcBuilders.standaloneSetup(trackController).setControllerAdvice(new GlobalException()).build();
         track = new Track();
         track.setId(1);
@@ -71,6 +73,7 @@ public class TrackControllerTest {
                 .andDo(MockMvcResultHandlers.print());
     }
 
+
     @Test
     public void getById() throws Exception{
         when(trackService.getById(anyInt())).thenReturn(track);
@@ -79,6 +82,8 @@ public class TrackControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
+
+
 
     @Test
     public void getAllTracks() throws Exception {
@@ -90,10 +95,10 @@ public class TrackControllerTest {
                 .andDo(MockMvcResultHandlers.print());
     }
 
+
     @Test
     public void deleteTrackById() throws Exception {
-        Track t1 = new Track(2,"soul","soft metallic");
-        when(trackService.getById(anyInt())).thenReturn(track);
+        when(trackService.deleteTrackById(anyInt())).thenReturn(java.util.Optional.ofNullable(track));
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/track/1")
                 .contentType(MediaType.APPLICATION_JSON).content(asJasonString(track)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -102,9 +107,12 @@ public class TrackControllerTest {
 
     @Test
     public void updateTrack() throws Exception {
-        Track t1 = new Track(2,"soul","soft metallic");
-        when(trackService.getById(anyInt())).thenReturn(track);
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/track/2")
+        Track t1 = new Track();
+        t1.setName("vola");
+        t1.setComments("pop");
+
+        when(trackService.updateTrack(1,t1)).thenReturn(track);
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/track/1")
                 .contentType(MediaType.APPLICATION_JSON).content(asJasonString(track)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
@@ -113,9 +121,8 @@ public class TrackControllerTest {
     @Test
     public void getByName() throws Exception {
 
-        Track t1 = new Track(2,"soul","soft metallic");
-        when(trackService.getById(anyInt())).thenReturn(track);
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/tracks/soul")
+        when(trackService.getByName(any())).thenReturn(track);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/tracks/beautiful")
                 .contentType(MediaType.APPLICATION_JSON).content(asJasonString(track)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
