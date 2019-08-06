@@ -22,8 +22,8 @@ import static org.junit.Assert.*;
 public class TrackRepositoryTest {
 
     @Autowired
-    TrackRepository trackRepository;
-    Track track;
+    private TrackRepository trackRepository;
+    private Track track;
 
     @Before
     public void setUp() throws Exception {

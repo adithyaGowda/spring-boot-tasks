@@ -23,11 +23,11 @@ public class TrackServiceTest {
     Track track;
 
     @Mock
-    TrackRepository trackRepository;
+    private TrackRepository trackRepository;
 
     @InjectMocks
-    TrackServiceImpl trackService;
-    List<Track> list = null;
+    private TrackServiceImpl trackService;
+    private List<Track> list = null;
 
     @Before
     public void setUp() throws Exception {
@@ -167,7 +167,6 @@ public class TrackServiceTest {
     @Test(expected = NullPointerException.class)
     public void testGetByNameException() throws TrackNotFoundException {
 
-        Track t1 = new Track(2,"teardrop","guitar acoustic");
         trackRepository.save(track);
 
         when(trackRepository.findByName(track.getName())).thenReturn(track);
