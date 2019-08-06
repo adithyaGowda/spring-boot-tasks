@@ -147,7 +147,7 @@ public class TrackRepositoryTest {
     }
 
     @Test
-    public void testToFindByNameChecksForDataByName(){
+    public void testToFindByNameChecksForTrackName(){
 
         trackRepository.save(track);
         Track t1 = trackRepository.findByName(track.getName());
