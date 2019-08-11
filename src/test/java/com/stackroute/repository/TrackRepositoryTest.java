@@ -37,17 +37,18 @@ public class TrackRepositoryTest {
     @After
     public void tearDown() throws Exception {
         trackRepository.deleteAll();
+        track = null;
     }
 
     @Test
-    public void testToSaveTheTrack() {
+    public void givenInputTrackShouldSaveTheTrack() {
 
         Track testTrack = trackRepository.findById(track.getId()).get();
         assertEquals(track, testTrack);
     }
 
     @Test
-    public void testToNotSaveAnyTracks() {
+    public void givenInputTrackShouldNotSaveAnyTracks() {
 
         Track newTrack = new Track(12, "Beautiful", "Restful Evening");
         trackRepository.save(newTrack);
@@ -55,7 +56,7 @@ public class TrackRepositoryTest {
     }
 
     @Test
-    public void testToGetAllTheTracks() {
+    public void givenInputTrackShouldReturnAllTheTracks() {
         Track t1 = new Track(2, "soul", "soft metallic");
         Track t2 = new Track(3, "teardrop", "soft rock");
         Track t3 = new Track(4, "dance", "hiphop");
@@ -69,7 +70,7 @@ public class TrackRepositoryTest {
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void testToGetAllTheTracksThrowsException() {
+    public void givenInputShouldGetAllTheTracksThrowsException() {
         Track t1 = new Track(2, "soul", "soft metallic");
         Track t2 = new Track(3, "teardrop", "soft rock");
         Track t3 = new Track(4, "dance", "hiphop");
@@ -83,7 +84,7 @@ public class TrackRepositoryTest {
     }
 
     @Test
-    public void testToGetTrackById() {
+    public void givenInputIdShouldReturnTrackById() {
         Track t1 = new Track();
         Track t2 = new Track(2, "soul", "soft metallic");
         Track t3 = new Track(3, "teardrop", "soft rock");
@@ -97,7 +98,7 @@ public class TrackRepositoryTest {
     }
 
     @Test(expected = NoSuchElementException.class)
-    public void testToGetTrackByIdThrowsException() {
+    public void givenInputIdShouldReturnGetTrackByIdThrowsException() {
         Track t1 = new Track();
         Track t2 = new Track(2, "soul", "soft metallic");
         Track t3 = new Track(3, "teardrop", "soft rock");
@@ -109,7 +110,7 @@ public class TrackRepositoryTest {
     }
 
     @Test
-    public void testToDeleteTrackById() {
+    public void givenInputIdShouldDeleteTrackById() {
 
         assertEquals(true, trackRepository.existsById(track.getId()));
         trackRepository.deleteById(track.getId());
@@ -117,7 +118,7 @@ public class TrackRepositoryTest {
     }
 
     @Test
-    public void testToDeleteTrackByIdReturnsException() {
+    public void givenInputIdShouldDeleteTrackByIdReturnsException() {
         Track t1 = new Track(2, "teardrop", "soft rock");
         trackRepository.save(t1);
         assertNotSame(false, trackRepository.existsById(t1.getId()));
@@ -126,7 +127,7 @@ public class TrackRepositoryTest {
     }
 
     @Test
-    public void testToUpdateTrackFoundById() {
+    public void givenInputIdShouldReturnUpdateTrackFoundById() {
         Track t1 = new Track(2, "soul", "soft metallic");
         Track t2 = new Track(3, "teardrop", "soft rock");
         Track t3 = new Track(4, "dance", "hiphop");
@@ -142,12 +143,12 @@ public class TrackRepositoryTest {
     }
 
     @Test
-    public void testToUpdateChecksForNotNull() {
+    public void givenInputIdShouldReturnUpdateChecksForNotNull() {
         assertNotNull(trackRepository.existsById(track.getId()));
     }
 
     @Test
-    public void testToFindByNameChecksForTrackName(){
+    public void givenInputIdShouldFindTrackByName(){
 
         trackRepository.save(track);
         Track t1 = trackRepository.findByName(track.getName());
@@ -157,7 +158,7 @@ public class TrackRepositoryTest {
     }
 
     @Test
-    public void testToFindByNameChecksForNotEquality(){
+    public void givenInputIdShouldReturnFindByNameChecksForNotEquality(){
 
         trackRepository.save(track);
 
