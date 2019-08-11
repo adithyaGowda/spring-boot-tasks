@@ -30,7 +30,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @RunWith(SpringRunner.class)
@@ -62,6 +62,12 @@ public class TrackControllerTest {
         list.add(track);
     }
 
+    @After
+    public void tearDown() throws Exception {
+        track = null;
+        list = null;
+        trackService = null;
+    }
 
     @Test
     public void saveTrack() throws Exception {
@@ -71,8 +77,18 @@ public class TrackControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(asJasonString(track)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andDo(MockMvcResultHandlers.print());
+
+        verify(trackService,times(1)).saveTrack(track);
     }
 
+    @Test
+    public void saveTrackFailure() throws Exception {
+        when(trackService.saveTrack(any())).thenThrow(TrackAlreadyExistsException.class);
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/track")
+                .contentType(MediaType.APPLICATION_JSON).content(asJasonString(track)))
+                .andExpect(MockMvcResultMatchers.status().isConflict())
+                .andDo(MockMvcResultHandlers.print());
+    }
 
     @Test
     public void getById() throws Exception{
@@ -81,6 +97,7 @@ public class TrackControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(asJasonString(track)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
+        verify(trackService,times(1)).getById(track.getId());
     }
 
 
@@ -93,6 +110,17 @@ public class TrackControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(asJasonString(track)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
+
+    }
+
+    @Test
+    public void getAllTracksFailure() throws TrackNotFoundException, Exception {
+        when(trackService.getAllTracks()).thenThrow(Exception.class);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/track")
+                .contentType(MediaType.APPLICATION_JSON).
+                        content(asJasonString(track)))
+                .andExpect(MockMvcResultMatchers.status().isConflict())
+                .andDo(MockMvcResultHandlers.print());
     }
 
 
@@ -102,6 +130,16 @@ public class TrackControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/track/1")
                 .contentType(MediaType.APPLICATION_JSON).content(asJasonString(track)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+        verify(trackService,times(1)).deleteTrackById(track.getId());
+    }
+
+    @Test
+    public void deleteTracksFailure() throws Exception, TrackNotFoundException {
+        when(trackService.deleteTrackById(1)).thenThrow(TrackNotFoundException.class);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/trackde/1")
+                .contentType(MediaType.APPLICATION_JSON).content(asJasonString(track)))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andDo(MockMvcResultHandlers.print());
     }
 
@@ -116,6 +154,7 @@ public class TrackControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(asJasonString(track)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
+        verify(trackService,times(2)).updateTrack(track.getId(),t1);
     }
 
     @Test
@@ -126,7 +165,11 @@ public class TrackControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(asJasonString(track)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
+        verify(trackService,times(2)).getByName(track.getName());
     }
+
+
+
 
 
     private static String asJasonString(final Object obj){
