@@ -71,7 +71,7 @@ public class TrackServiceImpl implements TrackService {
     public List<Track> getAllTracks() throws Exception {
         List<Track> data = trackRepository.findAll();
         if (data.isEmpty()){
-            throw new Exception("No Tracks Available");
+            throw new Exception("Database connection issue may occur");
         }
         return trackRepository.findAll();
     }
